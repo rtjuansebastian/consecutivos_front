@@ -1,0 +1,52 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    margin-bottom: 60px; /* Margin bottom by footer height */
+}
+
+.App {
+    background-color: lightsteelblue;
+}
+
+.App-logo {
+    text-align: center;
+    animation: App-logo-spin infinite 20s linear;
+    height: 80px;
+}
+
+.App-header {
+    text-align: center;
+    background-color: white;
+    height: 150px;
+    padding: 20px;
+    color: white;
+}
+
+.App-title {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.App-intro {
+    text-align: center;
+    font-size: large;
+}
+
+.App-footer {
+    text-align: center;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px; /* Set the fixed height of the footer here */
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
+
+/*
+@keyframes App-logo-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+*/
