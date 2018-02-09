@@ -34,7 +34,7 @@ class Consecutivo extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": ""}],
+            documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo":"0"}],
             usuario: '',
             tipoDocumento: '',
             nombre: '',
@@ -119,7 +119,7 @@ class Consecutivo extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const documento = {"id": 0, "usuario": {"cedula": this.state.usuario}, "tipoDocumento": {"id": this.state.tipoDocumento}, "nombre": this.state.nombre, "fecha": this.state.fecha};
+        const documento = {"id": 0, "usuario": {"cedula": this.state.usuario}, "tipoDocumento": {"id": this.state.tipoDocumento}, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
         this.setState({usuario: '', tipoDocumento: '', nombre: '', fecha: ''});
         this.crearDocumento(documento);
     }
@@ -147,21 +147,37 @@ class Consecutivo extends Component {
 
 const Documento = props => {
 
-    if(props.documento.tipoDocumento.siglas==="OTR"){
-        props.documento.tipoDocumento.siglas="";
-    }else{
-        props.documento.nombre="";
-    }
-    
-    if(props.documento.tipoDocumento.siglas!=="IM"){
-        props.documento.usuario.iniciales="";
-    }
-    
-    props.documento.fecha=props.documento.fecha.replace("-","");
-    props.documento.fecha=props.documento.fecha.replace("-","");
-    
+   var nombreDocumento="";
+   
+   if(props.documento.tipoDocumento.individual===true){
+       
+       nombreDocumento=props.documento.usuario.equipo.siglas+ " " + props.documento.tipoDocumento.siglas + " " + props.documento.usuario.iniciales + " ";
+       if(props.documento.tipoDocumento.titulo===true){
+           nombreDocumento+= props.documento.nombre + " "; 
+       }
+       
+       nombreDocumento+= pad(props.documento.consecutivo,3) + " " + props.documento.fecha.replace("-","").replace("-","");
+       
+   }else{
+       
+       nombreDocumento=props.documento.usuario.equipo.siglas+ " ";
+       
+       if(props.documento.tipoDocumento.siglas!=="OTR"){
+        
+            nombreDocumento+= props.documento.tipoDocumento.siglas + " ";
+       }
+       
+       nombreDocumento+= pad(props.documento.consecutivo,3) + " ";
+       
+       if(props.documento.tipoDocumento.titulo===true){
+           nombreDocumento+= props.documento.nombre + " "; 
+       }                    
+       
+       nombreDocumento+=props.documento.fecha.replace("-","").replace("-","");
+   }
+
     return (
-            <li className="documento" key={props.documento.id}>{props.documento.usuario.equipo.siglas} {props.documento.tipoDocumento.siglas} {props.documento.usuario.iniciales} {props.documento.nombre} {props.documento.fecha} </li>
+            <li className="documento" key={props.documento.id}>{nombreDocumento} </li>
             );
 };
 
@@ -205,5 +221,12 @@ const FormularioDocumento = props => {
             </form>
             );
 };
+
+function pad (num, length) {
+    var  n = num.toString();
+    while(n.length < length)
+         n = "0" + n;
+    return n;
+}
 
 export default App;
