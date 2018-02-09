@@ -36,7 +36,8 @@ class Consecutivo extends Component {
         this.state = {
             documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo":"0"}],
             tiposDocumentos: [{"id":0, "nombre":"", "siglas":"", "individual":false, "titulo":false}],
-            usuario: '',
+            usuarios:[{"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}],
+            usuario: '26258041',
             tipoDocumento: '1',
             nombre: '',
             fecha: ''
@@ -44,6 +45,7 @@ class Consecutivo extends Component {
     }
 
     componentWillMount() {
+        this.traerUsuarios();
         this.traerTiposDocumentos();
         this.traerDocumentos();                      
     }
@@ -118,6 +120,16 @@ class Consecutivo extends Component {
                     this.setState({tiposDocumentos: tiposDocumentos});
                 });      
     }
+    
+    traerUsuarios(){
+        fetch('http://localhost:8080/consecutivos/usuarios')
+                .then((response) => {                    
+                    return response.json();
+                })
+                .then((usuarios) => {
+                    this.setState({usuarios: usuarios});
+                });      
+    }    
 
     handleInputChange(event) {
         const target = event.target;
@@ -132,7 +144,7 @@ class Consecutivo extends Component {
     handleSubmit(event) {
         event.preventDefault();
         const documento = {"id": 0, "usuario": {"cedula": this.state.usuario}, "tipoDocumento": {"id": this.state.tipoDocumento}, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
-        this.setState({usuario: '', tipoDocumento: '', nombre: '', fecha: ''});
+        this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: ''});
         this.crearDocumento(documento);
     }
 
@@ -211,6 +223,15 @@ const SelectorTiposDocumentos = props =>{
             );
 };
 
+const SelectorUsuarios = props =>{       
+    const opciones = props.usuarios.map((usuario, i) => <option value={usuario.cedula} key={i}>{usuario.nombre}</option>); 
+    return (
+            <select name="usuario" className="form-control" value={props.value} onChange={props.change}>
+                {opciones}
+            </select>
+            );
+};
+
 const FormularioDocumento = props => {           
     return(
             <form onSubmit={props.handleSubmit}>
@@ -218,7 +239,7 @@ const FormularioDocumento = props => {
                     <label>
                         Usuario:
                     </label>                        
-                    <input className="form-control" name="usuario" type="text" value={props.campos.usuario} onChange={props.handleInputChange}/>
+                    <SelectorUsuarios value={props.campos.usuario} usuarios={props.campos.usuarios} change={props.handleInputChange} />
                 </div>
                 <div className="form-group">                    
                     <label>
