@@ -35,19 +35,21 @@ class Consecutivo extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
             documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo":"0"}],
+            tiposDocumentos: [{"id":0, "nombre":"", "siglas":"", "individual":false, "titulo":false}],
             usuario: '',
-            tipoDocumento: '',
+            tipoDocumento: '1',
             nombre: '',
             fecha: ''
         };
     }
 
     componentWillMount() {
-        this.traerDocumentos();
+        this.traerTiposDocumentos();
+        this.traerDocumentos();                      
     }
 
     componentDidMount() {
-        //this.traerDocumentos();
+        
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -106,12 +108,22 @@ class Consecutivo extends Component {
                     return response.json();
                 });
     }
+    
+    traerTiposDocumentos(){
+        fetch('http://localhost:8080/consecutivos/tiposDocumentos')
+                .then((response) => {                    
+                    return response.json();
+                })
+                .then((tiposDocumentos) => {
+                    this.setState({tiposDocumentos: tiposDocumentos});
+                });      
+    }
 
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         const name = target.name;
-
+        //console.log("campo: "+name+ " - Valor: " + value);
         this.setState({
             [name]: value
         });
@@ -128,7 +140,7 @@ class Consecutivo extends Component {
         let listado = null;
         if (this.state && this.state.documentos) {
             listado = <ListaDocumentos list={this.state.documentos}/>
-        }
+        }        
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} />
         return (
                 <div className="row">                    
@@ -190,7 +202,16 @@ const ListaDocumentos = props => {
             );
 };
 
-const FormularioDocumento = props => {
+const SelectorTiposDocumentos = props =>{       
+    const opciones = props.tiposDocumentos.map((tipoDocumento, i) => <option value={tipoDocumento.id} key={i}>{tipoDocumento.nombre}</option>); 
+    return (
+            <select name="tipoDocumento" className="form-control" value={props.value} onChange={props.change}>
+                {opciones}
+            </select>
+            );
+};
+
+const FormularioDocumento = props => {           
     return(
             <form onSubmit={props.handleSubmit}>
                 <div className="form-group">
@@ -202,8 +223,8 @@ const FormularioDocumento = props => {
                 <div className="form-group">                    
                     <label>
                         Tipo Documento:
-                    </label>                        
-                    <input className="form-control" name="tipoDocumento" type="number" value={props.campos.tipoDocumento} onChange={props.handleInputChange}/>                    
+                    </label>      
+                    <SelectorTiposDocumentos value={props.campos.tipoDocumento} tiposDocumentos={props.campos.tiposDocumentos} change={props.handleInputChange} />
                 </div> 
                 <div className="form-group">                    
                     <label>
