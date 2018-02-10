@@ -34,9 +34,9 @@ class Consecutivo extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.state = {
-            documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo":"0"}],
-            tiposDocumentos: [{"id":0, "nombre":"", "siglas":"", "individual":false, "titulo":false}],
-            usuarios:[{"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}],
+            documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo": "0"}],
+            tiposDocumentos: [{"id": 0, "nombre": "", "siglas": "", "individual": false, "titulo": false}],
+            usuarios: [{"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}],
             usuario: '26258041',
             tipoDocumento: '1',
             nombre: '',
@@ -47,11 +47,25 @@ class Consecutivo extends Component {
     componentWillMount() {
         this.traerUsuarios();
         this.traerTiposDocumentos();
-        this.traerDocumentos();                      
+        this.traerDocumentos();
     }
 
     componentDidMount() {
-        
+
+        var selectorTipoDocumento = document.getElementById("selectorTipoDocumento");
+
+        selectorTipoDocumento.addEventListener("change", () => {
+            var opcionSeleccionada=selectorTipoDocumento.options[selectorTipoDocumento.selectedIndex];
+            var inputNombreDocumento=document.getElementById("nombreDocumento");
+            
+            if(opcionSeleccionada.dataset.titulo==='true'){            
+                inputNombreDocumento.readOnly = false;
+            }else{                
+                inputNombreDocumento.readOnly = true;                
+                //this.setState({nombre: ''}); NO FUNCIONO!!
+            }
+        });
+
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -110,26 +124,26 @@ class Consecutivo extends Component {
                     return response.json();
                 });
     }
-    
-    traerTiposDocumentos(){
+
+    traerTiposDocumentos() {
         fetch('http://localhost:8080/consecutivos/tiposDocumentos')
-                .then((response) => {                    
+                .then((response) => {
                     return response.json();
                 })
                 .then((tiposDocumentos) => {
                     this.setState({tiposDocumentos: tiposDocumentos});
-                });      
+                });
     }
-    
-    traerUsuarios(){
+
+    traerUsuarios() {
         fetch('http://localhost:8080/consecutivos/usuarios')
-                .then((response) => {                    
+                .then((response) => {
                     return response.json();
                 })
                 .then((usuarios) => {
                     this.setState({usuarios: usuarios});
-                });      
-    }    
+                });
+    }
 
     handleInputChange(event) {
         const target = event.target;
@@ -152,7 +166,7 @@ class Consecutivo extends Component {
         let listado = null;
         if (this.state && this.state.documentos) {
             listado = <ListaDocumentos list={this.state.documentos}/>
-        }        
+        }
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} />
         return (
                 <div className="row">                    
@@ -171,34 +185,34 @@ class Consecutivo extends Component {
 
 const Documento = props => {
 
-   var nombreDocumento="";
-   
-   if(props.documento.tipoDocumento.individual===true){
-       
-       nombreDocumento=props.documento.usuario.equipo.siglas+ " " + props.documento.tipoDocumento.siglas + " " + props.documento.usuario.iniciales + " ";
-       if(props.documento.tipoDocumento.titulo===true){
-           nombreDocumento+= props.documento.nombre + " "; 
-       }
-       
-       nombreDocumento+= pad(props.documento.consecutivo,3) + " " + props.documento.fecha.replace("-","").replace("-","");
-       
-   }else{
-       
-       nombreDocumento=props.documento.usuario.equipo.siglas+ " ";
-       
-       if(props.documento.tipoDocumento.siglas!=="OTR"){
-        
-            nombreDocumento+= props.documento.tipoDocumento.siglas + " ";
-       }
-       
-       nombreDocumento+= pad(props.documento.consecutivo,3) + " ";
-       
-       if(props.documento.tipoDocumento.titulo===true){
-           nombreDocumento+= props.documento.nombre + " "; 
-       }                    
-       
-       nombreDocumento+=props.documento.fecha.replace("-","").replace("-","");
-   }
+    var nombreDocumento = "";
+
+    if (props.documento.tipoDocumento.individual === true) {
+
+        nombreDocumento = props.documento.usuario.equipo.siglas + " " + props.documento.tipoDocumento.siglas + " " + props.documento.usuario.iniciales + " ";
+        if (props.documento.tipoDocumento.titulo === true) {
+            nombreDocumento += props.documento.nombre + " ";
+        }
+
+        nombreDocumento += pad(props.documento.consecutivo, 3) + " " + props.documento.fecha.replace("-", "").replace("-", "");
+
+    } else {
+
+        nombreDocumento = props.documento.usuario.equipo.siglas + " ";
+
+        if (props.documento.tipoDocumento.siglas !== "OTR") {
+
+            nombreDocumento += props.documento.tipoDocumento.siglas + " ";
+        }
+
+        nombreDocumento += pad(props.documento.consecutivo, 3) + " ";
+
+        if (props.documento.tipoDocumento.titulo === true) {
+            nombreDocumento += props.documento.nombre + " ";
+        }
+
+        nombreDocumento += props.documento.fecha.replace("-", "").replace("-", "");
+    }
 
     return (
             <li className="documento" key={props.documento.id}>{nombreDocumento} </li>
@@ -214,17 +228,17 @@ const ListaDocumentos = props => {
             );
 };
 
-const SelectorTiposDocumentos = props =>{       
-    const opciones = props.tiposDocumentos.map((tipoDocumento, i) => <option value={tipoDocumento.id} key={i}>{tipoDocumento.nombre}</option>); 
+const SelectorTiposDocumentos = props => {
+    const opciones = props.tiposDocumentos.map((tipoDocumento, i) => <option value={tipoDocumento.id} key={i} data-titulo={tipoDocumento.titulo}>{tipoDocumento.nombre}</option>);
     return (
-            <select name="tipoDocumento" className="form-control" value={props.value} onChange={props.change}>
+            <select id="selectorTipoDocumento" name="tipoDocumento" className="form-control" value={props.value} onChange={props.change}>
                 {opciones}
             </select>
             );
 };
 
-const SelectorUsuarios = props =>{       
-    const opciones = props.usuarios.map((usuario, i) => <option value={usuario.cedula} key={i}>{usuario.nombre}</option>); 
+const SelectorUsuarios = props => {
+    const opciones = props.usuarios.map((usuario, i) => <option value={usuario.cedula} key={i}>{usuario.nombre}</option>);
     return (
             <select name="usuario" className="form-control" value={props.value} onChange={props.change}>
                 {opciones}
@@ -232,7 +246,7 @@ const SelectorUsuarios = props =>{
             );
 };
 
-const FormularioDocumento = props => {           
+const FormularioDocumento = props => {
     return(
             <form onSubmit={props.handleSubmit}>
                 <div className="form-group">
@@ -251,7 +265,7 @@ const FormularioDocumento = props => {
                     <label>
                         Nombre:
                     </label>                        
-                    <input className="form-control" name="nombre" type="text" value={props.campos.nombre} onChange={props.handleInputChange}/>                    
+                    <input id="nombreDocumento" readOnly={true} className="form-control" name="nombre" type="text" value={props.campos.nombre} onChange={props.handleInputChange}/>                    
                 </div>
                 <div className="form-group">                    
                     <label>
@@ -264,10 +278,10 @@ const FormularioDocumento = props => {
             );
 };
 
-function pad (num, length) {
-    var  n = num.toString();
-    while(n.length < length)
-         n = "0" + n;
+function pad(num, length) {
+    var n = num.toString();
+    while (n.length < length)
+        n = "0" + n;
     return n;
 }
 
