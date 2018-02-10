@@ -15,7 +15,7 @@ class Content extends Component {
         return (
                 <div className="Content container-fluid">                    
                     <p className="App-intro">
-                        En esta pagina podra solicitar un consecutivo para su documento
+                        Bienvenido a la aplicación para gestión de consecutivos
                     </p>        
                     {body}
                 </div>

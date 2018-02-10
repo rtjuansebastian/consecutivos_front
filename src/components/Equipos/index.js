@@ -28,8 +28,9 @@ class Equipos extends Component {
     render() {
 
         return (
-                <div className="row">                    
-                    <div className="col-md-6">
+                <div className="row">          
+                    <div className="col-md-12"><h1 className="App-intro">Equipos</h1></div>
+                    <div className="col-md-12">
                         <TablaEquipos equipos={this.state.equipos} />
                     </div>
                 </div>
