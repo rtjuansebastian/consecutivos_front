@@ -68,7 +68,7 @@ class Consecutivo extends Component {
     }
 
     buscarDocumento(id) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento/' + id, {method: 'GET'})
+        fetch('http://localhost:8080/consecutivos/documento/' + id, {method: 'GET'})
                 .then((response) => {
                     return response.json();
                 })
@@ -78,7 +78,7 @@ class Consecutivo extends Component {
     }
 
     crearDocumento(documento) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(() => {
                     this.traerDocumentos();
                 });
@@ -86,7 +86,7 @@ class Consecutivo extends Component {
     }
 
     traerDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/documentos')
+        fetch('http://localhost:8080/consecutivos/documentos')
                 .then((response) => {
                     return response.json();
                 })
@@ -98,21 +98,21 @@ class Consecutivo extends Component {
     editarDocumento(documento) {
         var data = new FormData();
         data.append("json", JSON.stringify(documento));
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'PUT', body: data})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'PUT', body: data})
                 .then((response) => {
                     return response.json();
                 });
     }
 
     eliminarDocumento() {
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'DELETE'})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'DELETE'})
                 .then((response) => {
                     return response.json();
                 });
     }
     
     traerTiposDocumentos(){
-        fetch('http://159.89.94.78:8080/consecutivos/tiposDocumentos')
+        fetch('http://localhost:8080/consecutivos/tiposDocumentos')
                 .then((response) => {                    
                     return response.json();
                 })
@@ -122,7 +122,7 @@ class Consecutivo extends Component {
     }
     
     traerUsuarios(){
-        fetch('http://159.89.94.78:8080/consecutivos/usuarios')
+        fetch('http://localhost:8080/consecutivos/usuarios')
                 .then((response) => {                    
                     return response.json();
                 })
