@@ -4,29 +4,25 @@ html {
 }
 body {
     margin-bottom: 60px; /* Margin bottom by footer height */
-}
-
-.App {
     background-color: lightsteelblue;
 }
 
 .App-logo {
-    text-align: center;
-    animation: App-logo-spin infinite 20s linear;
-    height: 80px;
+    text-align: left;
+    height: 30px;
 }
 
 .App-header {
     text-align: center;
     background-color: white;
-    height: 150px;
+    height: 100px;
     padding: 20px;
     color: white;
 }
 
 .App-title {
-    text-align: center;
-    font-size: 1.5em;
+    text-align: left;
+    font-size: 0.8em;
 }
 
 .App-intro {

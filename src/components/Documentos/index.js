@@ -1,31 +1,7 @@
+//Dependencies
 import React, { Component } from 'react';
-import logo from './logo.jpg';
-import './App.css';
 
-class App extends Component {
-    render() {
-        return (
-                <div className="App">
-                    <header className="App-header">
-                        <img src={logo} className="App-logo" alt="logo" />
-                        <h1 className="App-title">Generador de consecutivos</h1>
-                    </header>
-                    <div className="main container">
-                        <p className="App-intro">
-                            En esta pagina podra solicitar un consecutivo para su documento
-                        </p>                    
-                        <Consecutivo />                
-                    </div>
-                    <footer className="App-footer">
-                        Brecha Digital 2018
-                    </footer>
-                </div>
-                );
-    }
-}
-;
-
-class Consecutivo extends Component {
+class Documentos extends Component {
 
     constructor(props) {
         super(props);
@@ -285,4 +261,4 @@ function pad(num, length) {
     return n;
 }
 
-export default App;
+export default Documentos;
