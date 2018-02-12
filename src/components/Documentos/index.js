@@ -1,14 +1,19 @@
 //Dependencies
 import React, { Component } from 'react';
 
+//Components
+import ModalEditar from '../Global/Modal';
+
 class Documentos extends Component {
 
     constructor(props) {
         super(props);
         this.crearDocumento = this.crearDocumento.bind(this);
         this.traerDocumentos = this.traerDocumentos.bind(this);
+        this.eliminarDocumento = this.eliminarDocumento.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);     
+        this.handleDelete = this.handleDelete.bind(this);     
         this.state = {
             documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo": "0"}],
             tiposDocumentos: [{"id": 0, "nombre": "", "siglas": "", "individual": false, "titulo": false}],
@@ -94,10 +99,10 @@ class Documentos extends Component {
                 });
     }
 
-    eliminarDocumento() {
-        fetch('http://localhost:8080/consecutivos/documento', {method: 'DELETE'})
-                .then((response) => {
-                    return response.json();
+    eliminarDocumento(id) {
+        fetch('http://localhost:8080/consecutivos/documento/'+id, {method: 'DELETE'})
+                .then(() => {
+                    this.traerDocumentos();
                 });
     }
 
@@ -137,11 +142,17 @@ class Documentos extends Component {
         this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: ''});
         this.crearDocumento(documento);
     }
-
+    
+    handleDelete(event){
+        event.preventDefault();
+        const id=event.target.dataset.id;        
+        this.eliminarDocumento(id);
+    }
+    
     render() {
         let listado = null;
         if (this.state && this.state.documentos) {
-            listado = <ListaDocumentos list={this.state.documentos}/>
+            listado = <ListaDocumentos list={this.state.documentos} handleDelete={this.handleDelete} />
         }
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} />
         return (
@@ -192,16 +203,29 @@ const Documento = props => {
     }
 
     return (
-            <li className="documento" key={props.documento.id}>{nombreDocumento} </li>
+            <tr className="documento" key={props.documento.id}>
+                <td>{nombreDocumento}</td> 
+                <td><ModalEditar documento={props.documento}/> </td> 
+                <td><button onClick={props.handleDelete} data-id={props.documento.id}>Eliminar</button></td>
+            </tr>
             );
 };
 
 const ListaDocumentos = props => {
-    const listadoDocumentos = props.list.map((documento, i) => <Documento documento={documento} key={i}/>);
+    const listadoDocumentos = props.list.map((documento, i) => <Documento documento={documento}  key={i} handleDelete={props.handleDelete} />);
     return (
-            <ul className="listadoDocumentos">
-                {listadoDocumentos}
-            </ul>
+            <table className="listadoDocumentos table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>      
+                    {listadoDocumentos}
+                </tbody>
+            </table>
             );
 };
 
