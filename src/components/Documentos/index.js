@@ -213,34 +213,7 @@ class Documentos extends Component {
 
 const Documento = props => {
 
-    var nombreDocumento = "";
-
-    if (props.documento.tipoDocumento.individual === true) {
-
-        nombreDocumento = props.documento.usuario.equipo.siglas + " " + props.documento.tipoDocumento.siglas + " " + props.documento.usuario.iniciales + " ";
-        if (props.documento.tipoDocumento.titulo === true) {
-            nombreDocumento += props.documento.nombre + " ";
-        }
-
-        nombreDocumento += pad(props.documento.consecutivo, 3) + " " + props.documento.fecha.replace("-", "").replace("-", "");
-
-    } else {
-
-        nombreDocumento = props.documento.usuario.equipo.siglas + " ";
-
-        if (props.documento.tipoDocumento.siglas !== "OTR") {
-
-            nombreDocumento += props.documento.tipoDocumento.siglas + " ";
-        }
-
-        nombreDocumento += pad(props.documento.consecutivo, 3) + " ";
-
-        if (props.documento.tipoDocumento.titulo === true) {
-            nombreDocumento += props.documento.nombre + " ";
-        }
-
-        nombreDocumento += props.documento.fecha.replace("-", "").replace("-", "");
-    }
+    var nombreDocumento = traerNombreDocumento(props.documento);
 
     return (
             <tr className="documento" key={props.documento.id}>
@@ -317,7 +290,7 @@ const FormularioDocumento = props => {
                     />                     
                     </div>
                 </div>
-                <input className="form-control btn btn-success" type="submit" value="Crear" />                    
+                <input className="form-control btn-crear" type="submit" value="Crear" />                    
             </form>
             );
 };

@@ -9,7 +9,7 @@ class Solicitudes extends Component {
                 <div className="row">          
                     <h1 className="text-center">Solicitudes</h1>
                     <div className="col-md-12">
-                        <p>Si necesita ayuda sobre el generador de consecutivos por favor comunicarse al celular 3197888886 o al correo js.rodriguezt@uniandes.edu.co </p>
+                    <p>Si necesita ayuda sobre el generador de consecutivos por favor comunicarse al celular <a href="tel:+573197888886">3197888886</a> o al correo <a href="mailto:js.rodriguezt@uniandes.edu.co">js.rodriguezt@uniandes.edu.co</a></p>
                     </div>
                 </div>
                 );
