@@ -5,11 +5,13 @@ import {Route, Switch} from 'react-router-dom';
 //Components
 import App from './components/App';
 import Documentos from './components/Documentos';
+import Solicitudes from './components/Solicitudes';
 
 const AppRoutes = () =>
     <App>
         <Switch>
-            <Route path="/" component={Documentos} />
+            <Route exact path="/" component={Documentos} />            
+            <Route path="/solicitudes" component={Solicitudes} />            
         </Switch>
     </App>;
     

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 //Components
 import '../input-moment/css/input-moment.css';
-import ModalEditar from '../Global/Modal';
+
 import InputMoment from '../input-moment/input-moment';
 
 class Documentos extends Component {
@@ -245,8 +245,6 @@ const Documento = props => {
     return (
             <tr className="documento" key={props.documento.id}>
                 <td>{nombreDocumento}</td> 
-                <td><ModalEditar documento={props.documento}/> </td> 
-                <td><button className="btn btn-sm btn-danger" onClick={props.handleDelete} data-id={props.documento.id}>Eliminar</button></td>
             </tr>
             );
 };
@@ -258,8 +256,6 @@ const ListaDocumentos = props => {
                 <thead>
                     <tr>
                         <th>Nombre</th>
-                        <th>Editar</th>
-                        <th>Eliminar</th>
                     </tr>
                 </thead>
                 <tbody>      

@@ -10,7 +10,7 @@ class Header extends Component {
     
     render() {
 
-        const itemsMenu = [{titulo:'Documentos', url: '/documentos'}, {titulo:'Equipos', url: '/equipos'}, {titulo:'Tipos de Documento', url: '/tiposdocumentos'}, {titulo:'Usuarios', url: '/usuarios'}];
+        const itemsMenu = [{titulo:'Documentos', url: '/'}, {titulo:'Solicitudes', url: '/solicitudes'}];
         return (
                 <header className="App-header">                                 
                     <nav className="navbar navbar-default">
@@ -28,7 +28,7 @@ class Header extends Component {
                             </div>
                             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                 <ul className="nav navbar-nav">
-                                    
+                                    {itemsMenu.map((item, key) => <li key={key}><Link to={item.url}>{item.titulo}</Link></li>)};
                                 </ul>
                             </div>
                         </div>
