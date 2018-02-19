@@ -22,11 +22,13 @@ class Documentos extends Component {
             documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo": "0"}],
             tiposDocumentos: [{"id": 0, "nombre": "", "siglas": "", "individual": false, "titulo": false}],
             usuarios: [{"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}],
+            equipos:[{"id": 0, "nombre": "", "siglas": ""}],
             usuario: '26258041',
             tipoDocumento: '1',
             nombre: '',
             fecha: '',
-            m: moment()
+            m: moment(),
+            ultimoConsecutivo:''
         };
     }
 
@@ -34,6 +36,7 @@ class Documentos extends Component {
         this.traerUsuarios();
         this.traerTiposDocumentos();
         this.traerDocumentos();
+        this.traerEquipos();
         this.setState({fecha:this.state.m.format('YYYY-MM-DD')});
     }
 
@@ -78,12 +81,19 @@ class Documentos extends Component {
                 });
     }
 
-    crearDocumento(documento) {
+    crearDocumento(documento) {       
         fetch('http://localhost:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
-                .then(() => {
-                    this.traerDocumentos();
+                .then((response) => {
+                    return response.json();
+                })                
+                .then((nuevoDocumento) => {
+                    var fechaDoc=documento.fecha;
+                    nuevoDocumento.fecha=fechaDoc;
+                    var nombreDocumento=traerNombreDocumento(nuevoDocumento);
+                    alert("Se ha creado el documento: " + nombreDocumento);
+                    this.traerDocumentos();                                        
                 });
-
+                
     }
 
     traerDocumentos() {
@@ -95,7 +105,7 @@ class Documentos extends Component {
                     this.setState({documentos: documentos});
                 });
     }
-
+    
     editarDocumento(documento) {
         var data = new FormData();
         data.append("json", JSON.stringify(documento));
@@ -131,11 +141,21 @@ class Documentos extends Component {
                     this.setState({usuarios: usuarios});
                 });
     }
+    
+    traerEquipos() {
+        fetch('http://localhost:8080/consecutivos/equipos')
+                .then((response) => {
+                    return response.json();
+                })
+                .then((equipos) => {
+                    this.setState({equipos: equipos});
+                });
+    }    
 
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const name = target.name;        
         //console.log("campo: "+name+ " - Valor: " + value);
         this.setState({
             [name]: value
@@ -143,8 +163,14 @@ class Documentos extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();           
-        const documento = {"id": 0, "usuario": {"cedula": this.state.usuario}, "tipoDocumento": {"id": this.state.tipoDocumento}, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
+        event.preventDefault();    
+        var usuarios=this.state.usuarios;
+        var cedulaUsuario=this.state.usuario;
+        var usuario = usuarios.find(item => item.cedula === parseInt(cedulaUsuario));
+        var tiposDocumentos=this.state.tiposDocumentos;
+        var idTipoDocumento=this.state.tipoDocumento;
+        var tipoDocumento=tiposDocumentos.find(item => item.id === parseInt(idTipoDocumento));
+        const documento = {"id": 0, "usuario": usuario, "tipoDocumento": tipoDocumento, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
         this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')});
         this.crearDocumento(documento);
     }
@@ -306,6 +332,39 @@ function pad(num, length) {
     while (n.length < length)
         n = "0" + n;
     return n;
+}
+
+function traerNombreDocumento(documento){
+    var nombreDocumento = "";
+
+    if (documento.tipoDocumento.individual === true) {
+
+        nombreDocumento = documento.usuario.equipo.siglas + " " + documento.tipoDocumento.siglas + " " + documento.usuario.iniciales + " ";
+        if (documento.tipoDocumento.titulo === true) {
+            nombreDocumento += documento.nombre + " ";
+        }
+
+        nombreDocumento += pad(documento.consecutivo, 3) + " " + documento.fecha.replace("-", "").replace("-", "");
+
+    } else {
+
+        nombreDocumento = documento.usuario.equipo.siglas + " ";
+
+        if (documento.tipoDocumento.siglas !== "OTR") {
+
+            nombreDocumento += documento.tipoDocumento.siglas + " ";
+        }
+
+        nombreDocumento += pad(documento.consecutivo, 3) + " ";
+
+        if (documento.tipoDocumento.titulo === true) {
+            nombreDocumento += documento.nombre + " ";
+        }
+
+        nombreDocumento += documento.fecha.replace("-", "").replace("-", "");
+    }
+    
+    return nombreDocumento;
 }
 
 export default Documentos;
