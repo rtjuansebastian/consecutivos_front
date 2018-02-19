@@ -23,7 +23,7 @@ class Documentos extends Component {
             tiposDocumentos: [{"id": 0, "nombre": "", "siglas": "", "individual": false, "titulo": false}],
             usuarios: [{"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}],
             equipos:[{"id": 0, "nombre": "", "siglas": ""}],
-            usuario: '26258041',
+            usuario: '36303681',
             tipoDocumento: '1',
             nombre: '',
             fecha: '',
@@ -171,7 +171,7 @@ class Documentos extends Component {
         var idTipoDocumento=this.state.tipoDocumento;
         var tipoDocumento=tiposDocumentos.find(item => item.id === parseInt(idTipoDocumento));
         const documento = {"id": 0, "usuario": usuario, "tipoDocumento": tipoDocumento, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
-        this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')});
+        this.setState({usuario: '36303681', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')});
         this.crearDocumento(documento);
     }
     
