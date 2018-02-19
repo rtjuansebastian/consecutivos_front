@@ -13,10 +13,7 @@ class Content extends Component {
         const {body} = this.props;
 
         return (
-                <div className="Content container-fluid">                    
-                    <p className="App-intro">
-                        Bienvenido a la aplicación para gestión de consecutivos
-                    </p>        
+                <div className="Content container-fluid">                          
                     {body}
                 </div>
                 );

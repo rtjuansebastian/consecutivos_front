@@ -198,7 +198,6 @@ class Documentos extends Component {
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} />                        
         return (
                 <div className="row">
-                    <div className="col-md-12"><h1 className="App-intro">Documentos</h1></div>
                     <div className="col-md-6">
                         <h1>Listado de documentos</h1>
                         {listado}
