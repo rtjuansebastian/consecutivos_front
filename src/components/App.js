@@ -20,6 +20,10 @@ const {children} = this.props;
             <div className="App">
                 <Header/>
                 <Content body={children} />
+                        <br></br>
+                        <br></br>
+                        <br></br>
+                        <br></br>
                 <footer className="App-footer">
                     Brecha Digital 2018
                 </footer>

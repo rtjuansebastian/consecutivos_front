@@ -45,7 +45,7 @@ class ModalEditar extends Component {
     }
     
     editarDocumento(documento) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'PUT', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'PUT', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(() => {
                     //this.setState({editado:true});
                     window.location.reload()
@@ -105,7 +105,7 @@ class ModalEditar extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleSubmit}>Editar</Button>
-            <Button onClick={this.handleHide}>Close</Button>
+            <Button onClick={this.handleHide}>Cerrar</Button>
           </Modal.Footer>
         </Modal>
       </div>

@@ -1,8 +1,10 @@
 //Dependencies
 import React, { Component } from 'react';
-
+import moment from 'moment';
 //Components
+import '../input-moment/css/input-moment.css';
 import ModalEditar from '../Global/Modal';
+import InputMoment from '../input-moment/input-moment';
 
 class Documentos extends Component {
 
@@ -14,6 +16,8 @@ class Documentos extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);     
         this.handleDelete = this.handleDelete.bind(this);     
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSave = this.handleSave.bind(this);
         this.state = {
             documentos: [{"id": 0, "usuario": {"cedula": "", "nombre": "", "correo": "", "equipo": {"id": 0, "nombre": "", "siglas": ""}, "iniciales": ""}, "tipoDocumento": {"id": 0, "nombre": "", "siglas": ""}, "nombre": "Cargando...", "fecha": "", "consecutivo": "0"}],
             tiposDocumentos: [{"id": 0, "nombre": "", "siglas": "", "individual": false, "titulo": false}],
@@ -21,7 +25,8 @@ class Documentos extends Component {
             usuario: '26258041',
             tipoDocumento: '1',
             nombre: '',
-            fecha: ''
+            fecha: '',
+            m: moment()
         };
     }
 
@@ -29,6 +34,7 @@ class Documentos extends Component {
         this.traerUsuarios();
         this.traerTiposDocumentos();
         this.traerDocumentos();
+        this.setState({fecha:this.state.m.format('YYYY-MM-DD')});
     }
 
     componentDidMount() {
@@ -63,7 +69,7 @@ class Documentos extends Component {
     }
 
     buscarDocumento(id) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento/' + id, {method: 'GET'})
+        fetch('http://localhost:8080/consecutivos/documento/' + id, {method: 'GET'})
                 .then((response) => {
                     return response.json();
                 })
@@ -73,7 +79,7 @@ class Documentos extends Component {
     }
 
     crearDocumento(documento) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then(() => {
                     this.traerDocumentos();
                 });
@@ -81,7 +87,7 @@ class Documentos extends Component {
     }
 
     traerDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/documentos')
+        fetch('http://localhost:8080/consecutivos/documentos')
                 .then((response) => {
                     return response.json();
                 })
@@ -93,21 +99,21 @@ class Documentos extends Component {
     editarDocumento(documento) {
         var data = new FormData();
         data.append("json", JSON.stringify(documento));
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'PUT', body: data})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'PUT', body: data})
                 .then((response) => {
                     return response.json();
                 });
     }
 
     eliminarDocumento(id) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento/'+id, {method: 'DELETE'})
+        fetch('http://localhost:8080/consecutivos/documento/'+id, {method: 'DELETE'})
                 .then(() => {
                     this.traerDocumentos();
                 });
     }
 
     traerTiposDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/tiposDocumentos')
+        fetch('http://localhost:8080/consecutivos/tiposDocumentos')
                 .then((response) => {
                     return response.json();
                 })
@@ -117,7 +123,7 @@ class Documentos extends Component {
     }
 
     traerUsuarios() {
-        fetch('http://159.89.94.78:8080/consecutivos/usuarios')
+        fetch('http://localhost:8080/consecutivos/usuarios')
                 .then((response) => {
                     return response.json();
                 })
@@ -137,9 +143,9 @@ class Documentos extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();        
+        event.preventDefault();           
         const documento = {"id": 0, "usuario": {"cedula": this.state.usuario}, "tipoDocumento": {"id": this.state.tipoDocumento}, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
-        this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: ''});
+        this.setState({usuario: '26258041', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')});
         this.crearDocumento(documento);
     }
     
@@ -149,12 +155,21 @@ class Documentos extends Component {
         this.eliminarDocumento(id);
     }
     
+    handleChange = m => {
+        this.setState({ m }); 
+        this.setState({fecha:this.state.m.format('YYYY-MM-DD')});
+    };    
+    
+    handleSave = () => {
+       console.log('saved', this.state.m.format('llll'));
+     };    
+    
     render() {
         let listado = null;
         if (this.state && this.state.documentos) {
             listado = <ListaDocumentos list={this.state.documentos} handleDelete={this.handleDelete} />
         }
-        let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} />
+        let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} />                        
         return (
                 <div className="row">
                     <div className="col-md-12"><h1 className="App-intro">Documentos</h1></div>
@@ -164,7 +179,7 @@ class Documentos extends Component {
                     </div>
                     <div className="col-md-6">
                         <h1>Crear documento</h1>
-                        {formulario}
+                        {formulario}                             
                     </div>
                 </div>
                 );
@@ -206,7 +221,7 @@ const Documento = props => {
             <tr className="documento" key={props.documento.id}>
                 <td>{nombreDocumento}</td> 
                 <td><ModalEditar documento={props.documento}/> </td> 
-                <td><button onClick={props.handleDelete} data-id={props.documento.id}>Eliminar</button></td>
+                <td><button className="btn btn-sm btn-danger" onClick={props.handleDelete} data-id={props.documento.id}>Eliminar</button></td>
             </tr>
             );
 };
@@ -271,8 +286,15 @@ const FormularioDocumento = props => {
                 <div className="form-group">                    
                     <label>
                         Fecha:
-                    </label>                        
-                    <input className="form-control" name="fecha" type="text" value={props.campos.fecha} onChange={props.handleInputChange}/>                    
+                    </label> 
+                    <div>
+                    <InputMoment                      
+                      moment={props.campos.m}
+                      onChange={props.handleChange}
+                      minStep={5}
+                      onSave={props.handleSave}
+                    />                     
+                    </div>
                 </div>
                 <input className="form-control btn btn-success" type="submit" value="Crear" />                    
             </form>

@@ -12,7 +12,7 @@ import Usuarios from './components/Usuarios';
 const AppRoutes = () =>
     <App>
         <Switch>
-            <Route path="/documentos" component={Documentos} />
+            <Route path="/" component={Documentos} />
             <Route path="/equipos" component={Equipos} />
             <Route path="/tiposdocumentos" component={TiposDocumentos} />
             <Route path="/usuarios" component={Usuarios} />
