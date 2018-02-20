@@ -1,6 +1,7 @@
 //Dependencies
 import React, { Component } from 'react';
 import moment from 'moment';
+import { Tooltip, OverlayTrigger} from 'react-bootstrap';
 //Components
 import '../input-moment/css/input-moment.css';
 
@@ -257,6 +258,13 @@ const SelectorUsuarios = props => {
 };
 
 const FormularioDocumento = props => {
+    
+    const tooltip = (
+        <Tooltip id="tooltip">
+          <strong>El nombre del documento debe ser maximo de 50 caracteres</strong>
+        </Tooltip>
+    );
+    
     return(
             <form onSubmit={props.handleSubmit}>
                 <div className="form-group">
@@ -274,14 +282,17 @@ const FormularioDocumento = props => {
                 <div className="form-group">                    
                     <label>
                         Nombre:
-                    </label>                        
-                    <input id="nombreDocumento" readOnly={true} className="form-control" name="nombre" type="text" value={props.campos.nombre} onChange={props.handleInputChange}/>                    
+                    </label>
+                    <OverlayTrigger placement="top" overlay={tooltip}>
+                        <input id="nombreDocumento" readOnly={true} className="form-control" name="nombre" type="text" value={props.campos.nombre} onChange={props.handleInputChange} maxLength="50"/>                    
+                    </OverlayTrigger>
                 </div>
                 <div className="form-group">                    
                     <label>
                         Fecha:
                     </label> 
                     <div>
+                    <input id="fechaDocumento" className="form-control" readOnly={true} type="text" value={props.campos.m.format("YYYY-MM-DD")} />
                     <InputMoment                      
                       moment={props.campos.m}
                       onChange={props.handleChange}
@@ -290,7 +301,7 @@ const FormularioDocumento = props => {
                     />                     
                     </div>
                 </div>
-                <input className="form-control btn-crear" type="submit" value="Crear" />                    
+                <button className="form-control btn-crear">Crear</button>                    
             </form>
             );
 };

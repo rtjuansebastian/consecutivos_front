@@ -30,7 +30,8 @@
   color: #ffffff;
 }
 .m-calendar .current-day {
-  color: #450359;
+  color: #ffffff;
+  background: #9d06cc;
   font-weight: bold;
 }
 .m-calendar .prev-month,
