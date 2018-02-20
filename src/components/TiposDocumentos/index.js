@@ -16,7 +16,7 @@ class TiposDocumentos extends Component {
     }
 
     traerTiposDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/tiposDocumentos')
+        fetch('http://localhost:8080/consecutivos/tiposDocumentos')
                 .then((response) => {
                     return response.json();
                 })
