@@ -218,6 +218,7 @@ class Documentos extends Component {
             listado = <ListaDocumentos documentos={this.state.documentos} handleDelete={this.handleDelete} />
         }        
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} /> ;                               
+        let previsualizacion=traerNombreDocumento(this.state.prevDoc).replace(" 000 "," ### ");
         return (
                 <div className="row">
                     <div className="col-md-12">
@@ -229,7 +230,7 @@ class Documentos extends Component {
                     </div>
                     <div className="col-md-6">
                         <h2>Crear documento</h2>
-                        <p>Previsualización: {traerNombreDocumento(this.state.prevDoc)}</p>
+                        <p>Previsualización: {previsualizacion}</p>
                         {formulario}                             
                     </div>
                 </div>
