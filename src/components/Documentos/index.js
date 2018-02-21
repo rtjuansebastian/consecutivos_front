@@ -1,10 +1,12 @@
 //Dependencies
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import moment from 'moment';
 import { Tooltip, OverlayTrigger} from 'react-bootstrap';
+import {BootstrapTable, TableHeaderColumn} from 'react-bootstrap-table';
+//import 'node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 //Components
 import '../input-moment/css/input-moment.css';
-
 import InputMoment from '../input-moment/input-moment';
 
 class Documentos extends Component {
@@ -29,7 +31,8 @@ class Documentos extends Component {
             nombre: '',
             fecha: '',
             m: moment(),
-            ultimoConsecutivo:''
+            ultimoConsecutivo:'',
+            text: ''
         };
     }
 
@@ -92,6 +95,8 @@ class Documentos extends Component {
                     nuevoDocumento.fecha=fechaDoc;
                     var nombreDocumento=traerNombreDocumento(nuevoDocumento);
                     alert("Se ha creado el documento: " + nombreDocumento);
+                    var inputNombreDocumento=document.getElementById("nombreDocumento");
+                    inputNombreDocumento.readOnly = true;  
                     this.traerDocumentos();                                        
                 });
                 
@@ -194,7 +199,7 @@ class Documentos extends Component {
     render() {
         let listado = null;
         if (this.state && this.state.documentos) {
-            listado = <ListaDocumentos list={this.state.documentos} handleDelete={this.handleDelete} />
+            listado = <ListaDocumentos documentos={this.state.documentos} handleDelete={this.handleDelete} />
         }
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} />                        
         return (
@@ -227,18 +232,17 @@ const Documento = props => {
 };
 
 const ListaDocumentos = props => {
-    const listadoDocumentos = props.list.map((documento, i) => <Documento documento={documento}  key={i} handleDelete={props.handleDelete} />);
+    //const listadoDocumentos = props.documentos.map((documento, i) => <Documento documento={documento}  key={i} handleDelete={props.handleDelete} />);   
+    var item={};
+    const listadoDocumentos = props.documentos.map((documento, i) => item={id:documento.id, nombre:traerNombreDocumento(documento), fecha:documento.fecha});   
     return (
-            <table className="listadoDocumentos table">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                    </tr>
-                </thead>
-                <tbody>      
-                    {listadoDocumentos}
-                </tbody>
-            </table>
+            <div>          
+                <BootstrapTable data={listadoDocumentos} search striped hover>
+                    <TableHeaderColumn isKey dataField='id' dataSort>ID (Creación)</TableHeaderColumn>
+                    <TableHeaderColumn dataField='nombre'>Nombre</TableHeaderColumn>
+                    <TableHeaderColumn dataField='fecha' dataSort>Fecha</TableHeaderColumn>
+                </BootstrapTable> 
+            </div>
             );
 };
 
