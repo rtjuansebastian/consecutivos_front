@@ -260,7 +260,7 @@ const ListaDocumentos = props => {
     return (
             <div>          
                 <BootstrapTable data={listadoDocumentos} options={ options } search exportCSV csvFileName='Consecutivos.xls' searchPlaceholder='Buscar...' pagination striped hover>
-                    <TableHeaderColumn isKey dataField='id' dataSort>ID (Creación)</TableHeaderColumn>
+                    <TableHeaderColumn isKey dataField='id' dataSort width='10%'>ID</TableHeaderColumn>
                     <TableHeaderColumn dataField='nombre'>Nombre</TableHeaderColumn>
                     <TableHeaderColumn dataField='fecha' dataSort>Fecha</TableHeaderColumn>
                 </BootstrapTable> 
