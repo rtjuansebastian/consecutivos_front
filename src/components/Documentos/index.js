@@ -195,7 +195,7 @@ class Documentos extends Component {
     handleSave = () => {
        console.log('saved', this.state.m.format('llll'));
      };    
-    
+        
     render() {
         let listado = null;
         if (this.state && this.state.documentos) {
@@ -233,11 +233,15 @@ const Documento = props => {
 
 const ListaDocumentos = props => {
     //const listadoDocumentos = props.documentos.map((documento, i) => <Documento documento={documento}  key={i} handleDelete={props.handleDelete} />);   
-    var item={};
-    const listadoDocumentos = props.documentos.map((documento, i) => item={id:documento.id, nombre:traerNombreDocumento(documento), fecha:documento.fecha});   
+    var item={};     
+    const listadoDocumentos = props.documentos.map((documento, i) => item={id:documento.id, nombre:traerNombreDocumento(documento), fecha:documento.fecha});     
+    const options = {
+      exportCSVText: 'Exportar Excel',
+      exportCSVSeparator: ';'
+    };    
     return (
             <div>          
-                <BootstrapTable data={listadoDocumentos} search striped hover>
+                <BootstrapTable data={listadoDocumentos} options={ options } search exportCSV csvFileName='Consecutivos.xls' searchPlaceholder='Buscar...' striped hover>
                     <TableHeaderColumn isKey dataField='id' dataSort>ID (Creación)</TableHeaderColumn>
                     <TableHeaderColumn dataField='nombre'>Nombre</TableHeaderColumn>
                     <TableHeaderColumn dataField='fecha' dataSort>Fecha</TableHeaderColumn>
