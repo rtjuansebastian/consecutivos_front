@@ -73,7 +73,7 @@ class Documentos extends Component {
     }
 
     buscarDocumento(id) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento/' + id, {method: 'GET'})
+        fetch('http://localhost:8080/consecutivos/documento/' + id, {method: 'GET'})
                 .then((response) => {
                     return response.json();
                 })
@@ -83,7 +83,7 @@ class Documentos extends Component {
     }
 
     crearDocumento(documento) {       
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'POST', body: JSON.stringify(documento), headers: {'Accept': 'application/json', 'Content-Type': 'application/json'}})
                 .then((response) => {
                     return response.json();
                 })                
@@ -98,7 +98,7 @@ class Documentos extends Component {
     }
 
     traerDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/documentos')
+        fetch('http://localhost:8080/consecutivos/documentos')
                 .then((response) => {
                     return response.json();
                 })
@@ -110,21 +110,21 @@ class Documentos extends Component {
     editarDocumento(documento) {
         var data = new FormData();
         data.append("json", JSON.stringify(documento));
-        fetch('http://159.89.94.78:8080/consecutivos/documento', {method: 'PUT', body: data})
+        fetch('http://localhost:8080/consecutivos/documento', {method: 'PUT', body: data})
                 .then((response) => {
                     return response.json();
                 });
     }
 
     eliminarDocumento(id) {
-        fetch('http://159.89.94.78:8080/consecutivos/documento/'+id, {method: 'DELETE'})
+        fetch('http://localhost:8080/consecutivos/documento/'+id, {method: 'DELETE'})
                 .then(() => {
                     this.traerDocumentos();
                 });
     }
 
     traerTiposDocumentos() {
-        fetch('http://159.89.94.78:8080/consecutivos/tiposDocumentos')
+        fetch('http://localhost:8080/consecutivos/tiposDocumentos')
                 .then((response) => {
                     return response.json();
                 })
@@ -134,7 +134,7 @@ class Documentos extends Component {
     }
 
     traerUsuarios() {
-        fetch('http://159.89.94.78:8080/consecutivos/usuarios')
+        fetch('http://localhost:8080/consecutivos/usuarios')
                 .then((response) => {
                     return response.json();
                 })
@@ -144,7 +144,7 @@ class Documentos extends Component {
     }
     
     traerEquipos() {
-        fetch('http://159.89.94.78:8080/consecutivos/equipos')
+        fetch('http://localhost:8080/consecutivos/equipos')
                 .then((response) => {
                     return response.json();
                 })
@@ -199,12 +199,15 @@ class Documentos extends Component {
         let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} />                        
         return (
                 <div className="row">
+                    <div className="col-md-12">
+                        <h1 className="align-center">Si necesita editar algún documento dirijase a la ventana de solicitudes.</h1>
+                    </div>
                     <div className="col-md-6">
-                        <h1>Listado de documentos</h1>
+                        <h2>Listado de documentos</h2>
                         {listado}
                     </div>
                     <div className="col-md-6">
-                        <h1>Crear documento</h1>
+                        <h2>Crear documento</h2>
                         {formulario}                             
                     </div>
                 </div>

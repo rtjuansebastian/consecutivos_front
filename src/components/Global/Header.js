@@ -1,6 +1,8 @@
 //Dependencies
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
+import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 
 // Assets
 import logo from '../../logo.jpg';
@@ -12,27 +14,20 @@ class Header extends Component {
 
         const itemsMenu = [{titulo:'Documentos', url: '/'}, {titulo:'Solicitudes', url: '/solicitudes'}];
         return (
-                <header className="App-header">                                 
-                    <nav className="navbar navbar-default">
-                        <div className="container-fluid">
-                            <div className="navbar-header">
-                                <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                                    <span className="sr-only">Toggle navigation</span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
-                                    <span className="icon-bar"></span>
-                                </button>   
-                                <a className="navbar-brand" >                                    
-                                    <p className="App-title"><img src={logo} className="App-logo" alt="logo" /> Generador de consecutivos</p>                                  
-                                </a>                                                                                                
-                            </div>
-                            <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                                <ul className="nav navbar-nav">
-                                    {itemsMenu.map((item, key) => <li key={key}><Link to={item.url}>{item.titulo}</Link></li>)};
-                                </ul>
-                            </div>
-                        </div>
-                    </nav>
+                <header className="App-header">
+                    <Navbar collapseOnSelect>
+                        <Navbar.Header>
+                            <Navbar.Brand>
+                                <a>Generador de Consecutivos</a>
+                            </Navbar.Brand>
+                          <Navbar.Toggle />
+                        </Navbar.Header>
+                        <Navbar.Collapse>
+                            <Nav>
+                                {itemsMenu.map((item, key) => <LinkContainer key={key} to={item.url}><NavItem>{item.titulo}</NavItem></LinkContainer>)}
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>      
                 </header>
                 );
     }
