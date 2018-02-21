@@ -32,8 +32,9 @@ class Documentos extends Component {
             fecha: '',
             m: moment(),
             ultimoConsecutivo:'',
-            text: ''
-        };
+            text: '',
+            prevDoc:{"id": 0, "usuario": {"cedula": "36303681", "nombre": "Adriana Constanza Alvarez Embus", "correo": "asesorhuila@mintic.gov.co", "equipo": {"id": 6, "nombre": "Asesores Regionales", "siglas": "REG AS"}, "iniciales": "HUI"}, "tipoDocumento": {"id": 1, "nombre": "Acta", "siglas": "AC", "individual": false, "titulo": false}, "nombre": "", "fecha": moment().format("YYYYMMDD"), "consecutivo": "0"}            
+        };        
     }
 
     componentWillMount() {
@@ -41,7 +42,7 @@ class Documentos extends Component {
         this.traerTiposDocumentos();
         this.traerDocumentos();
         this.traerEquipos();
-        this.setState({fecha:this.state.m.format('YYYY-MM-DD')});
+        this.setState({fecha:this.state.m.format('YYYY-MM-DD')});        
     }
 
     componentDidMount() {
@@ -58,21 +59,21 @@ class Documentos extends Component {
                 inputNombreDocumento.readOnly = true;                
                 //this.setState({nombre: ''}); NO FUNCIONO!!
             }
-        });
-
+        });   
+        
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-
+        
         return true;
     }
 
     componentWillUpdate(nextProps, nextState) {
-        // Some code here
+        // Some code here                
     }
 
     componentDidUpdate(prevProps, prevState) {
-        // Some code here
+        // Some code here                           
     }
 
     buscarDocumento(id) {
@@ -164,8 +165,10 @@ class Documentos extends Component {
         const name = target.name;        
         //console.log("campo: "+name+ " - Valor: " + value);
         this.setState({
-            [name]: value
-        });
+            [name]: value            
+        },()=>{
+            this.previsualizarDocumento();
+        });                    
     }
 
     handleSubmit(event) {
@@ -177,8 +180,8 @@ class Documentos extends Component {
         var idTipoDocumento=this.state.tipoDocumento;
         var tipoDocumento=tiposDocumentos.find(item => item.id === parseInt(idTipoDocumento));
         const documento = {"id": 0, "usuario": usuario, "tipoDocumento": tipoDocumento, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};
-        this.setState({usuario: '36303681', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')});
-        this.crearDocumento(documento);
+        this.setState({usuario: '36303681', tipoDocumento: '1', nombre: '', fecha: this.state.m.format('YYYY-MM-DD')},()=>{this.previsualizarDocumento();});
+        this.crearDocumento(documento);        
     }
     
     handleDelete(event){
@@ -189,19 +192,32 @@ class Documentos extends Component {
     
     handleChange = m => {
         this.setState({ m }); 
-        this.setState({fecha:this.state.m.format('YYYY-MM-DD')});
+        this.setState({fecha:this.state.m.format('YYYY-MM-DD')},()=>{
+            this.previsualizarDocumento();
+        });
     };    
     
     handleSave = () => {
        console.log('saved', this.state.m.format('llll'));
-     };    
-        
+     };   
+     
+    previsualizarDocumento = () =>{
+        var usuarios=this.state.usuarios;
+        var cedulaUsuario=this.state.usuario;        
+        var usuario = usuarios.find(item => item.cedula === parseInt(cedulaUsuario));
+        var tiposDocumentos=this.state.tiposDocumentos;
+        var idTipoDocumento=this.state.tipoDocumento;
+        var tipoDocumento=tiposDocumentos.find(item => item.id === parseInt(idTipoDocumento));           
+        var documento={"id": 0, "usuario": usuario, "tipoDocumento": tipoDocumento, "nombre": this.state.nombre, "fecha": this.state.fecha, "consecutivo": "0"};                        
+        this.setState({prevDoc:documento});
+    }   
+    
     render() {
         let listado = null;
         if (this.state && this.state.documentos) {
             listado = <ListaDocumentos documentos={this.state.documentos} handleDelete={this.handleDelete} />
-        }
-        let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} />                        
+        }        
+        let formulario = <FormularioDocumento campos={this.state}  handleSubmit={this.handleSubmit} handleInputChange={this.handleInputChange} handleChange={this.handleChange} /> ;                               
         return (
                 <div className="row">
                     <div className="col-md-12">
@@ -213,6 +229,7 @@ class Documentos extends Component {
                     </div>
                     <div className="col-md-6">
                         <h2>Crear documento</h2>
+                        <p>Previsualización: {traerNombreDocumento(this.state.prevDoc)}</p>
                         {formulario}                             
                     </div>
                 </div>
