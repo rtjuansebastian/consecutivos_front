@@ -347,12 +347,12 @@ function traerNombreDocumento(documento){
 
     if (documento.tipoDocumento.individual === true) {
 
-        nombreDocumento = documento.usuario.equipo.siglas + " " + documento.tipoDocumento.siglas + " " + documento.usuario.iniciales + " ";
+        nombreDocumento = documento.usuario.equipo.siglas + " " + documento.tipoDocumento.siglas + " " + documento.usuario.iniciales + " " + pad(documento.consecutivo, 3) + " ";
         if (documento.tipoDocumento.titulo === true) {
             nombreDocumento += documento.nombre + " ";
         }
 
-        nombreDocumento += pad(documento.consecutivo, 3) + " " + documento.fecha.replace("-", "").replace("-", "");
+        nombreDocumento += documento.fecha.replace("-", "").replace("-", "");
 
     } else {
 
