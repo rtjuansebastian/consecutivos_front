@@ -55,8 +55,10 @@ class Documentos extends Component {
             
             if(opcionSeleccionada.dataset.titulo==='true'){            
                 inputNombreDocumento.readOnly = false;
+                inputNombreDocumento.required = true;
             }else{                
-                inputNombreDocumento.readOnly = true;                
+                inputNombreDocumento.readOnly = true;
+                inputNombreDocumento.required = false;
                 //this.setState({nombre: ''}); NO FUNCIONO!!
             }
         });   
