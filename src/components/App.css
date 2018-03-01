@@ -82,6 +82,10 @@ body {
     background-color: #450359;
     border-color: #450359;
 }
+
+.previsualizacion{
+    color: red;
+}
 /*
 @keyframes App-logo-spin {
     from { transform: rotate(0deg); }
