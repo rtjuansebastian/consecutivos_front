@@ -253,7 +253,7 @@ const Documento = props => {
 const ListaDocumentos = props => {
     //const listadoDocumentos = props.documentos.map((documento, i) => <Documento documento={documento}  key={i} handleDelete={props.handleDelete} />);   
     var item={};     
-    const listadoDocumentos = props.documentos.map((documento, i) => item={id:documento.id, nombre:traerNombreDocumento(documento), fecha:documento.fecha});     
+    const listadoDocumentos = props.documentos.map((documento, i) => item={id:documento.id, nombre:traerNombreDocumento(documento), fecha:documento.fecha, equipo: documento.usuario.equipo.siglas, usuario: documento.usuario.nombre});     
     const options = {
       exportCSVText: 'Exportar Excel',
       exportCSVSeparator: ';'
@@ -264,6 +264,8 @@ const ListaDocumentos = props => {
                     <TableHeaderColumn isKey dataField='id' dataSort width='10%'>ID</TableHeaderColumn>
                     <TableHeaderColumn dataField='nombre'>Nombre</TableHeaderColumn>
                     <TableHeaderColumn dataField='fecha' dataSort width='15%'>Fecha</TableHeaderColumn>
+                    <TableHeaderColumn dataField='equipo' dataSort width='0%'>Equipo</TableHeaderColumn>
+                    <TableHeaderColumn dataField='usuario' dataSort width='0%'>Usuario</TableHeaderColumn>
                 </BootstrapTable> 
             </div>
             );
