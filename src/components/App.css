@@ -8,8 +8,11 @@ body {
 }
 
 .App-logo {
+    position: relative;
+    top: -10px;
+    float: left;
     text-align: left;
-    height: 30px;
+    height: 40px;
 }
 
 .App-header {
@@ -22,8 +25,9 @@ body {
     margin-left: 0;
 }
 
-.App-title {
-    text-align: left;
+.App-title {     
+    float: right;
+    text-align: left;    
     font-size: 0.8em;
 }
 

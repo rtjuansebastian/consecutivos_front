@@ -5,7 +5,7 @@ import { Navbar, Nav, NavItem, MenuItem } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 // Assets
-import logo from '../../logoGC.jpg';
+import logo from '../../logoGC.png';
 import '../App.css';
 
 class Header extends Component {     
@@ -18,7 +18,7 @@ class Header extends Component {
                     <Navbar collapseOnSelect>
                         <Navbar.Header>
                             <Navbar.Brand>                                
-                                <a>Generador de Consecutivos</a>
+                            <a><img className="App-logo" src={logo} /><p className="App-title">Generador de Consecutivos</p></a>
                             </Navbar.Brand>
                           <Navbar.Toggle />
                         </Navbar.Header>
