@@ -224,7 +224,7 @@ class Documentos extends Component {
         return (
                 <div className="row">
                     <div className="col-md-12">
-                        <h1 className="align-center">Si necesita editar algún documento dirijase a la ventana de solicitudes.</h1>
+                        <h1 className="align-center">Si necesita editar algún documento diríjase a la ventana de solicitudes.</h1>
                     </div>
                     <div className="col-md-6">
                         <h2>Listado de documentos</h2>
