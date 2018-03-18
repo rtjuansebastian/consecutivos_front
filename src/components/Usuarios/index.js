@@ -16,7 +16,7 @@ class Usuarios extends Component {
     }
 
     traerUsuarios() {
-        fetch('http://localhost:8080/consecutivos/usuarios')
+        fetch('http://159.89.94.78:8080/consecutivos/usuarios')
                 .then((response) => {
                     return response.json();
                 })

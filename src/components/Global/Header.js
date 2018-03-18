@@ -12,7 +12,7 @@ class Header extends Component {
     
     render() {
 
-        const itemsMenu = [{titulo:'Documentos', url: '/'}, {titulo:'Solicitudes', url: '/solicitudes'}];
+        const itemsMenu = [{titulo:'Documentos', url: '/documentos'}, {titulo:'Solicitudes', url: '/solicitudes'}];
         return (
                 <header className="App-header">
                     <Navbar collapseOnSelect>

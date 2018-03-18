@@ -16,7 +16,7 @@ class Equipos extends Component {
     }
 
     traerEquipos() {
-        fetch('http://localhost:8080/consecutivos/equipos')
+        fetch('http://159.89.94.78:8080/consecutivos/equipos')
                 .then((response) => {
                     return response.json();
                 })

@@ -1,9 +1,9 @@
 //Dependencies
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {Router} from 'react-router-dom';
 import registerServiceWorker from './registerServiceWorker';
-
+import history from './history';
 //Components
 import AppRoutes from './routes';
 
@@ -11,7 +11,7 @@ import AppRoutes from './routes';
 import './index.css';
 
 ReactDOM.render(
-        <Router>
+        <Router history={history}>
             <AppRoutes/>
         </Router>
         , document.getElementById('root'));
