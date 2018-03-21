@@ -6,6 +6,7 @@ import history from '../history';
 //Components
 import Header from './Global/Header';
 import Content from './Global/Content';
+import Logo from '../logoGC.png'
 
 class App extends Component {
 
@@ -71,14 +72,19 @@ class App extends Component {
                     {
                     !ingreso && (
                                         <div className="row">
-                                            <div className="col-md-4 col-md-offset-3">
+                                            <div className="col-md-6 col-md-offset-3">
+                                                <div className="clearfix"></div>
+                                                <br />
+                                                <img src={Logo} className="logoForm" />
+                                                <h1 className="titleForm">Bienvenido al generador de consecutivos, para ingresar por favor digite la contraseña.</h1>
                                                 <form onSubmit={this.submit}>
                                                     <div className="form-group">                                                
-                                                        <label>Contraseña</label>
+                                                        <h2>Contraseña</h2>
                                                         <input className="form-control" id="login-password" type="password" />                                    
                                                     </div>
                                                 </form>
-                                                <input type="button" className="btn btn-crear form-control" value="Ingresar" onClick={this.login.bind(this)} />                                        
+                                                <input type="button" className="btn btn-crear form-control" value="INGRESAR" onClick={this.login.bind(this)} />                                        
+                                                <p>Si necesita ayuda puede comununicarse con <a href="mailto:js.rodriguezt@uniandes.edu.co">js.rodriguezt@uniandes.edu.co</a></p>
                                             </div>
                                         </div>
                             )
