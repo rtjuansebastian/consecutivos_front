@@ -147,6 +147,12 @@ class Documentos extends Component {
                     return response.json();
                 })
                 .then((usuarios) => {
+                    //quitar los usuarios anteriores (cambio de equipo cedula-1)
+                    usuarios.splice(5,1); //Alvaro Camilo Sánchez Salazar
+                    usuarios.splice(12,1); //Andrés Lisandro Bernal Sánchez
+                    usuarios.splice(13,1); //Angélica María Peña Gordillo
+                    usuarios.splice(26,1); //Catherine Johanna Gallo Cortes
+                    usuarios.splice(139,1); //Verónica Perry Galvis
                     this.setState({usuarios: usuarios});
                 });
     }
@@ -367,7 +373,12 @@ function traerNombreDocumento(documento){
             nombreDocumento += documento.tipoDocumento.siglas + " ";
         }
 
-        nombreDocumento += pad(documento.consecutivo, 3) + " ";
+        if (documento.consecutivo > 999)
+        {
+            nombreDocumento += pad(documento.consecutivo, 4) + " ";
+        }else{
+            nombreDocumento += pad(documento.consecutivo, 3) + " ";
+        }
 
         if (documento.tipoDocumento.titulo === true) {
             nombreDocumento += documento.nombre + " ";
