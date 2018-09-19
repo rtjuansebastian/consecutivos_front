@@ -148,11 +148,12 @@ class Documentos extends Component {
                 })
                 .then((usuarios) => {
                     //quitar los usuarios anteriores (cambio de equipo cedula-1)
-                    usuarios.splice(5,1); //Alvaro Camilo Sánchez Salazar
-                    usuarios.splice(12,1); //Andrés Lisandro Bernal Sánchez
-                    usuarios.splice(13,1); //Angélica María Peña Gordillo
-                    usuarios.splice(26,1); //Catherine Johanna Gallo Cortes
-                    usuarios.splice(139,1); //Verónica Perry Galvis
+                    //Alvaro Camilo Sánchez Salazar, Andrés Lisandro Bernal Sánchez, Angélica María Peña Gordillo, Catherine Johanna Gallo Cortes, Verónica Perry Galvis  
+                    for(var i=0; i < usuarios.length; i+=1){
+                        if(usuarios[i]['cedula']=="1018402388" || usuarios[i]['cedula']=="1018419469" || usuarios[i]['cedula']=="1110472834" || usuarios[i]['cedula']=="1032461364" || usuarios[i]['cedula']=="1071166722"){                            
+                            usuarios.splice(i,1);
+                        }
+                    }
                     this.setState({usuarios: usuarios});
                 });
     }
